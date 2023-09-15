@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta charset="Windows-1251"/>
+<title>Методика построения узловых линий</title>
+<style>
+#myRange{width:400px}
+</style>
+
+<script src="Matrices.js"></script>
+
+<script src="Solution.js"></script>
+
+<script>
+change_k=function(){
+	var k=document.getElementById("myInput").value;
+	changeScreen2(k,true,350,350,300,300);
+}
+</script>
+
+</head>
+<body>
+
+<img src="Method.files/delta1.gif"/>
+<br/>
+<img src="Method.files/delta2.gif"/>
+<br/>
+<img src="Method.files/delta.gif"/>
+
+<br/>
+<canvas id="myScreen2" width="700" height="700"></canvas>
+
+
+
+<br/>
+
+
+<i>к</i>=<input id="myInput" type="text" value="4.04" onchange="change_k();"/>
+
+<hr/>
+
+<a href="Slider.html">Варьирование частоты <i>к</i></a>
+
+
+</body>
+
+<script>
+	change_k();
+</script>
+</html>

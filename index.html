@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta charset="Windows-1251"/>
+
+<style>
+#myRange{width:800px}
+</style>
+
+<script src="Matrices.js"></script>
+
+<script src="Solution.js"></script>
+
+<script>
+change_k=function(){
+	k=parseFloat(slider.value);
+	value=changeScreen2(k,false,100,100,75,75);
+	plot(errorCanvas);
+	document.getElementById("kScreen").innerHTML=k;	
+}
+
+max=5;
+min=2;
+step=(max-min)/300;
+width=800;
+HEIGHT=150;
+
+plot=function(canvas){
+	document.getElementById("errorScreen").innerHTML=Math.abs(value);
+	var x3=(k-min)*width/(max-min);
+	var y3=HEIGHT/2-value*20;
+	canvas.fillStyle="#00ff00";
+	var square=2;
+	canvas.fillRect(x3-square,y3-square,2*square,2*square);
+}
+
+automatic_scanning=function(){
+	var clear=function(screen_name){
+		slider.value=min;
+		var canvas=document.getElementById(screen_name).getContext("2d");
+		var one=function(k){
+			var x=(k-min)*width/(max-min);
+			canvas.beginPath();
+			canvas.strokeStyle="#ff0000";
+			canvas.moveTo(x,HEIGHT/2);
+			canvas.lineTo(x,HEIGHT/2+20);
+			canvas.stroke();
+			canvas.closePath();		
+			canvas.beginPath();
+			canvas.strokeStyle="#000000";
+			canvas.strokeText(k,x,HEIGHT/2+40);
+			canvas.closePath();
+		}
+		canvas.strokeStyle="#ff0000";
+		canvas.beginPath();
+		canvas.moveTo(0,HEIGHT/2);
+		canvas.lineTo(width+30,HEIGHT/2);
+		
+		canvas.moveTo(width+15,HEIGHT/2+5);
+		canvas.lineTo(width+30,HEIGHT/2);
+		canvas.lineTo(width+15,HEIGHT/2-5);
+		canvas.stroke();
+	
+		canvas.strokeStyle="#000000";
+		canvas.strokeText("K",width+30,HEIGHT/2+10);
+
+		one(min);
+		one((3*max+min)/4);
+		one((max+3*min)/4);
+		one((max+min)/2);
+		one(max);
+		return canvas;
+	}
+	errorCanvas=clear("errorDisplay");
+	var frame1=function(){
+		change_k();
+		kk=parseFloat(slider.value);
+		if(kk<max){
+			slider.value=kk+step;
+		}
+		else{
+			clear("errorDisplay");
+		}
+	}
+	generator2=setInterval(frame1,40);
+}
+
+</script>
+
+</head>
+<body>
+
+
+
+<canvas id="myScreen2" width="200" height="200"></canvas>
+
+<p>
+<i>к</i>=
+<font color='#ff0000'><b><span id="kScreen"></span></b></font>
+
+
+Невязка=
+<font color='#ff0000'><b><span id="errorScreen"></span></b></font>
+</p>
+
+<p id="forSlider">
+</p>
+
+
+<p id="forDisplay">
+</p>
+
+
+
+</body>
+
+<script>
+	name="myRange";
+	document.getElementById("forSlider").innerHTML='<input width="'+width+'px" id="'+name+'" type="range" oninput="change_k();" min="'+min+'" max="'+max+'" step="'+step+'"/>';
+	document.getElementById("forDisplay").innerHTML='<canvas width="'+(width+50)+'" id="errorDisplay" height="'+HEIGHT+'"></canvas>';
+	slider=document.getElementById(name);
+	automatic_scanning();
+</script>
+</html>
